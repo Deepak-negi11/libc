@@ -60,22 +60,26 @@ extern_ty! {
     pub type ucred_t;
 }
 
-s! {
+s2! {
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct in_addr {
         pub s_addr: crate::in_addr_t,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct ip_mreq {
         pub imr_multiaddr: in_addr,
         pub imr_interface: in_addr,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct ip_mreq_source {
         pub imr_multiaddr: in_addr,
         pub imr_sourceaddr: in_addr,
         pub imr_interface: in_addr,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct ipc_perm {
         pub uid: crate::uid_t,
         pub gid: crate::gid_t,
@@ -86,11 +90,13 @@ s! {
         pub key: crate::key_t,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct sockaddr {
         pub sa_family: sa_family_t,
         pub sa_data: [c_char; 14],
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct sockaddr_in {
         pub sin_family: sa_family_t,
         pub sin_port: crate::in_port_t,
@@ -98,6 +104,7 @@ s! {
         pub sin_zero: [c_char; 8],
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct sockaddr_in6 {
         pub sin6_family: sa_family_t,
         pub sin6_port: crate::in_port_t,
@@ -107,44 +114,63 @@ s! {
         pub __sin6_src_id: u32,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct in_pktinfo {
         pub ipi_ifindex: c_uint,
         pub ipi_spec_dst: crate::in_addr,
         pub ipi_addr: crate::in_addr,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct in6_pktinfo {
         pub ipi6_addr: crate::in6_addr,
         pub ipi6_ifindex: c_uint,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct passwd {
+        #[custom_default(ptr::null_mut())]
         pub pw_name: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub pw_passwd: *mut c_char,
         pub pw_uid: crate::uid_t,
         pub pw_gid: crate::gid_t,
+        #[custom_default(ptr::null_mut())]
         pub pw_age: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub pw_comment: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub pw_gecos: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub pw_dir: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub pw_shell: *mut c_char,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct ifaddrs {
+        #[custom_default(ptr::null_mut())]
         pub ifa_next: *mut ifaddrs,
+        #[custom_default(ptr::null_mut())]
         pub ifa_name: *mut c_char,
         pub ifa_flags: u64,
+        #[custom_default(ptr::null_mut())]
         pub ifa_addr: *mut crate::sockaddr,
+        #[custom_default(ptr::null_mut())]
         pub ifa_netmask: *mut crate::sockaddr,
+        #[custom_default(ptr::null_mut())]
         pub ifa_dstaddr: *mut crate::sockaddr,
+        #[custom_default(ptr::null_mut())]
         pub ifa_data: *mut c_void,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct itimerspec {
         pub it_interval: crate::timespec,
         pub it_value: crate::timespec,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct tm {
         pub tm_sec: c_int,
         pub tm_min: c_int,
@@ -157,16 +183,21 @@ s! {
         pub tm_isdst: c_int,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct msghdr {
+        #[custom_default(ptr::null_mut())]
         pub msg_name: *mut c_void,
         pub msg_namelen: crate::socklen_t,
+        #[custom_default(ptr::null_mut())]
         pub msg_iov: *mut crate::iovec,
         pub msg_iovlen: c_int,
+        #[custom_default(ptr::null_mut())]
         pub msg_control: *mut c_void,
         pub msg_controllen: crate::socklen_t,
         pub msg_flags: c_int,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct cmsghdr {
         pub cmsg_len: crate::socklen_t,
         pub cmsg_level: c_int,
@@ -174,6 +205,7 @@ s! {
     }
 
     pub struct pthread_attr_t {
+        #[custom_default(ptr::null_mut())]
         __pthread_attrp: *mut c_void,
     }
 
@@ -188,6 +220,7 @@ s! {
     }
 
     pub struct pthread_mutexattr_t {
+        #[custom_default(ptr::null_mut())]
         __pthread_mutexattrp: *mut c_void,
     }
 
@@ -199,6 +232,7 @@ s! {
     }
 
     pub struct pthread_condattr_t {
+        #[custom_default(ptr::null_mut())]
         __pthread_condattrp: *mut c_void,
     }
 
@@ -212,9 +246,11 @@ s! {
     }
 
     pub struct pthread_rwlockattr_t {
+        #[custom_default(ptr::null_mut())]
         __pthread_rwlockattrp: *mut c_void,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct dirent {
         pub d_ino: crate::ino_t,
         pub d_off: off_t,
@@ -224,6 +260,7 @@ s! {
 
     pub struct glob_t {
         pub gl_pathc: size_t,
+        #[custom_default(ptr::null_mut())]
         pub gl_pathv: *mut *mut c_char,
         pub gl_offs: size_t,
         __unused1: Padding<*mut c_void>,
@@ -254,8 +291,11 @@ s! {
         #[cfg(target_arch = "sparc64")]
         __sparcv9_pad: Padding<c_int>,
         pub ai_addrlen: crate::socklen_t,
+        #[custom_default(ptr::null_mut())]
         pub ai_canonname: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub ai_addr: *mut crate::sockaddr,
+        #[custom_default(ptr::null_mut())]
         pub ai_next: *mut addrinfo,
     }
 
@@ -263,18 +303,22 @@ s! {
         bits: [u32; 4],
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct sigaction {
         pub sa_flags: c_int,
         pub sa_sigaction: crate::sighandler_t,
         pub sa_mask: sigset_t,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct stack_t {
+        #[custom_default(ptr::null_mut())]
         pub ss_sp: *mut c_void,
         pub ss_size: size_t,
         pub ss_flags: c_int,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct statvfs {
         pub f_bsize: c_ulong,
         pub f_frsize: c_ulong,
@@ -291,6 +335,7 @@ s! {
         pub f_fstr: [c_char; 32],
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct sendfilevec_t {
         pub sfv_fd: c_int,
         pub sfv_flag: c_uint,
@@ -303,13 +348,19 @@ s! {
         sched_pad: Padding<[c_int; 8]>,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct Dl_info {
+        #[custom_default(ptr::null_mut())]
         pub dli_fname: *const c_char,
+        #[custom_default(ptr::null_mut())]
         pub dli_fbase: *mut c_void,
+        #[custom_default(ptr::null_mut())]
         pub dli_sname: *const c_char,
+        #[custom_default(ptr::null_mut())]
         pub dli_saddr: *mut c_void,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct stat {
         pub st_dev: crate::dev_t,
         pub st_ino: crate::ino_t,
@@ -330,6 +381,7 @@ s! {
         pub st_fstype: [c_char; _ST_FSTYPSZ as usize],
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct termios {
         pub c_iflag: crate::tcflag_t,
         pub c_oflag: crate::tcflag_t,
@@ -338,16 +390,27 @@ s! {
         pub c_cc: [crate::cc_t; crate::NCCS],
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct lconv {
+        #[custom_default(ptr::null_mut())]
         pub decimal_point: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub thousands_sep: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub grouping: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub int_curr_symbol: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub currency_symbol: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub mon_decimal_point: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub mon_thousands_sep: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub mon_grouping: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub positive_sign: *mut c_char,
+        #[custom_default(ptr::null_mut())]
         pub negative_sign: *mut c_char,
         pub int_frac_digits: c_char,
         pub frac_digits: c_char,
@@ -383,8 +446,10 @@ s! {
         l_pad: Padding<[c_long; 4]>,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct if_nameindex {
         pub if_index: c_uint,
+        #[custom_default(ptr::null_mut())]
         pub if_name: *mut c_char,
     }
 
@@ -401,14 +466,18 @@ s! {
         pub portev_source: c_ushort,
         portev_pad: Padding<c_ushort>,
         pub portev_object: crate::uintptr_t,
+        #[custom_default(ptr::null_mut())]
         pub portev_user: *mut c_void,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct port_notify {
         pub portnfy_port: c_int,
+        #[custom_default(ptr::null_mut())]
         pub portnfy_user: *mut c_void,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct aio_result_t {
         pub aio_return: ssize_t,
         pub aio_errno: c_int,
@@ -419,6 +488,7 @@ s! {
         e_exit: c_short,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct utmp {
         pub ut_user: [c_char; 8],
         pub ut_id: [c_char; 4],
@@ -429,6 +499,7 @@ s! {
         pub ut_time: crate::time_t,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct timex {
         pub modes: u32,
         pub offset: i32,
@@ -449,12 +520,14 @@ s! {
         pub stbcnt: i32,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct ntptimeval {
         pub time: crate::timeval,
         pub maxerror: i32,
         pub esterror: i32,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct mmapobj_result_t {
         pub mr_addr: crate::caddr_t,
         pub mr_msize: size_t,
@@ -464,6 +537,7 @@ s! {
         pub mr_flags: c_uint,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct lgrp_affinity_args_t {
         pub idtype: crate::idtype_t,
         pub id: crate::id_t,
@@ -471,6 +545,7 @@ s! {
         pub aff: crate::lgrp_affinity_t,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct processor_info_t {
         pub pi_state: c_int,
         pub pi_processor_type: [c_char; PI_TYPELEN as usize],
@@ -478,29 +553,42 @@ s! {
         pub pi_clock: c_int,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct option {
+        #[custom_default(ptr::null_mut())]
         pub name: *const c_char,
         pub has_arg: c_int,
+        #[custom_default(ptr::null_mut())]
         pub flag: *mut c_int,
         pub val: c_int,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct sockaddr_un {
         pub sun_family: sa_family_t,
+        #[custom_default([0; 108])]
         pub sun_path: [c_char; 108],
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct utsname {
+        #[custom_default([0; 257])]
         pub sysname: [c_char; 257],
+        #[custom_default([0; 257])]
         pub nodename: [c_char; 257],
+        #[custom_default([0; 257])]
         pub release: [c_char; 257],
+        #[custom_default([0; 257])]
         pub version: [c_char; 257],
+        #[custom_default([0; 257])]
         pub machine: [c_char; 257],
     }
 
     pub struct fd_set {
+        #[custom_default([0; FD_SETSIZE as usize / 64])]
         #[cfg(target_pointer_width = "64")]
         fds_bits: [i64; FD_SETSIZE as usize / 64],
+        #[custom_default([0; FD_SETSIZE as usize / 32])]
         #[cfg(target_pointer_width = "32")]
         fds_bits: [i32; FD_SETSIZE as usize / 32],
     }
@@ -512,6 +600,7 @@ s! {
         __ss_pad2: Padding<[u8; 240]>,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct sockaddr_dl {
         pub sdl_family: c_ushort,
         pub sdl_index: c_ushort,
@@ -519,6 +608,7 @@ s! {
         pub sdl_nlen: c_uchar,
         pub sdl_alen: c_uchar,
         pub sdl_slen: c_uchar,
+        #[custom_default([0; 244])]
         pub sdl_data: [c_char; 244],
     }
 
@@ -526,13 +616,15 @@ s! {
         pub sigev_notify: c_int,
         pub sigev_signo: c_int,
         pub sigev_value: crate::sigval,
+        #[custom_default(ptr::null_mut())]
         pub ss_sp: *mut c_void,
+        #[custom_default(ptr::null_mut())]
         pub sigev_notify_attributes: *const crate::pthread_attr_t,
         __sigev_pad2: Padding<c_int>,
     }
 }
 
-s_no_extra_traits! {
+s_no_extra_traits2! {
     #[cfg_attr(target_pointer_width = "64", repr(align(8)))]
     pub struct siginfo_t {
         pub si_signo: c_int,
@@ -541,15 +633,18 @@ s_no_extra_traits! {
         #[cfg(target_pointer_width = "64")]
         si_pad: Padding<c_int>,
 
+        #[custom_default([0; SIGINFO_DATA_SIZE])]
         __data_pad: [c_int; SIGINFO_DATA_SIZE],
     }
 
+    #[unsafe(union_default_via_zeroed)]
     #[repr(align(16))]
     pub union pad128_t {
         // pub _q in this structure would be a "long double", of 16 bytes
         pub _l: [i32; 4],
     }
 
+    #[unsafe(union_default_via_zeroed)]
     #[repr(align(16))]
     pub union upad128_t {
         // pub _q in this structure would be a "long double", of 16 bytes
@@ -668,10 +763,12 @@ cfg_if! {
     }
 }
 
-s_no_extra_traits! {
+s_no_extra_traits2! {
     struct siginfo_fault {
+        #[custom_default(ptr::null_mut())]
         addr: *mut c_void,
         trapno: c_int,
+        #[custom_default(ptr::null_mut())]
         pc: *mut crate::caddr_t,
     }
 
@@ -1781,12 +1878,14 @@ pub const PTHREAD_MUTEX_INITIALIZER: pthread_mutex_t = pthread_mutex_t {
     __pthread_mutex_magic: _MUTEX_MAGIC,
     __pthread_mutex_lock: 0,
     __pthread_mutex_data: 0,
+    __non_exhaustive: (),
 };
 pub const PTHREAD_COND_INITIALIZER: pthread_cond_t = pthread_cond_t {
     __pthread_cond_flag: [0; 4],
     __pthread_cond_type: PTHREAD_PROCESS_PRIVATE,
     __pthread_cond_magic: _COND_MAGIC,
     __pthread_cond_data: 0,
+    __non_exhaustive: (),
 };
 pub const PTHREAD_RWLOCK_INITIALIZER: pthread_rwlock_t = pthread_rwlock_t {
     __pthread_rwlock_readers: 0,
@@ -1795,6 +1894,7 @@ pub const PTHREAD_RWLOCK_INITIALIZER: pthread_rwlock_t = pthread_rwlock_t {
     __pthread_rwlock_mutex: PTHREAD_MUTEX_INITIALIZER,
     __pthread_rwlock_readercv: PTHREAD_COND_INITIALIZER,
     __pthread_rwlock_writercv: PTHREAD_COND_INITIALIZER,
+    __non_exhaustive: (),
 };
 pub const PTHREAD_MUTEX_NORMAL: c_int = 0;
 pub const PTHREAD_MUTEX_ERRORCHECK: c_int = 2;

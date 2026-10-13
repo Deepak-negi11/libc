@@ -24,9 +24,10 @@ c_enum! {
     }
 }
 
-s! {
+s2! {
     pub struct aiocb {
         pub aio_fildes: c_int,
+        #[custom_default(ptr::null_mut())]
         pub aio_buf: *mut c_void,
         pub aio_nbytes: size_t,
         pub aio_offset: off_t,
@@ -52,14 +53,17 @@ s! {
         pub shm_atime: crate::time_t,
         pub shm_dtime: crate::time_t,
         pub shm_ctime: crate::time_t,
+        #[custom_default(ptr::null_mut())]
         pub shm_amp: *mut c_void,
         pub shm_gransize: u64,
         pub shm_allocated: u64,
         shm_pad4: Padding<[i64; 1]>,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct xrs_t {
         pub xrs_id: c_ulong,
+        #[custom_default(ptr::null_mut())]
         pub xrs_ptr: *mut c_char,
     }
 
@@ -74,32 +78,40 @@ s! {
         pub ut_session: c_int,
         pad: Padding<[c_int; 5]>,
         pub ut_syslen: c_short,
+        #[custom_default([0; 257])]
         pub ut_host: [c_char; 257],
     }
 }
 
-s_no_extra_traits! {
+s_no_extra_traits2! {
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     #[repr(packed)]
     pub struct door_desc_t__d_data__d_desc {
         pub d_descriptor: c_int,
         pub d_id: crate::door_id_t,
     }
 
+    #[unsafe(union_default_via_zeroed)]
     pub union door_desc_t__d_data {
         pub d_desc: door_desc_t__d_data__d_desc,
         d_resv: Padding<[c_int; 5]>, /* Check out /usr/include/sys/door.h */
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct door_desc_t {
         pub d_attributes: door_attr_t,
         pub d_data: door_desc_t__d_data,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct door_arg_t {
+        #[custom_default(ptr::null_mut())]
         pub data_ptr: *const c_char,
         pub data_size: size_t,
+        #[custom_default(ptr::null_mut())]
         pub desc_ptr: *const door_desc_t,
         pub dec_num: c_uint,
+        #[custom_default(ptr::null_mut())]
         pub rbuf: *const c_char,
         pub rsize: size_t,
     }

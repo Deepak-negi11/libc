@@ -13,9 +13,10 @@ use crate::{
 pub type lgrp_rsrc_t = c_int;
 pub type lgrp_affinity_t = c_int;
 
-s! {
+s2! {
     pub struct aiocb {
         pub aio_fildes: c_int,
+        #[custom_default(ptr::null_mut())]
         pub aio_buf: *mut c_void,
         pub aio_nbytes: size_t,
         pub aio_offset: off_t,
@@ -30,6 +31,7 @@ s! {
     pub struct shmid_ds {
         pub shm_perm: crate::ipc_perm,
         pub shm_segsz: size_t,
+        #[custom_default(ptr::null_mut())]
         pub shm_amp: *mut c_void,
         pub shm_lkcnt: c_ushort,
         pub shm_lpid: crate::pid_t,
@@ -42,6 +44,7 @@ s! {
         shm_pad4: Padding<[i64; 4]>,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct fil_info {
         pub fi_flags: c_int,
         pub fi_pos: c_int,
@@ -59,17 +62,20 @@ s! {
         pub ut_session: c_int,
         ut_pad: Padding<[c_int; _UTX_PADSIZE]>,
         pub ut_syslen: c_short,
+        #[custom_default([0; _UTX_HOSTSIZE])]
         pub ut_host: [c_char; _UTX_HOSTSIZE],
     }
 }
 
-s_no_extra_traits! {
+s_no_extra_traits2! {
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     #[cfg_attr(any(target_arch = "x86", target_arch = "x86_64"), repr(packed(4)))]
     pub struct epoll_event {
         pub events: u32,
         pub data: epoll_data,
     }
 
+    #[unsafe(union_default_via_zeroed)]
     pub union epoll_data {
         pub ptr: *mut c_void,
         pub fd: c_int,

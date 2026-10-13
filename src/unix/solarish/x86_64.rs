@@ -18,7 +18,8 @@ pub type Elf64_Xword = c_ulong;
 pub type Elf64_Lword = c_ulong;
 pub type Elf64_Phdr = __c_anonymous_Elf64_Phdr;
 
-s! {
+s2! {
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct __c_anonymous_fpchip_state {
         pub cw: u16,
         pub sw: u16,
@@ -36,6 +37,7 @@ s! {
         pub xstatus: u32,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct __c_anonymous_Elf64_Phdr {
         pub p_type: crate::Elf64_Word,
         pub p_flags: crate::Elf64_Word,
@@ -47,23 +49,29 @@ s! {
         pub p_align: crate::Elf64_Xword,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct dl_phdr_info {
         pub dlpi_addr: crate::Elf64_Addr,
+        #[custom_default(ptr::null_mut())]
         pub dlpi_name: *const c_char,
+        #[custom_default(ptr::null_mut())]
         pub dlpi_phdr: *const crate::Elf64_Phdr,
         pub dlpi_phnum: crate::Elf64_Half,
         pub dlpi_adds: c_ulonglong,
         pub dlpi_subs: c_ulonglong,
         #[cfg(target_os = "solaris")]
         pub dlpi_tls_modid: c_ulong,
+        #[custom_default(ptr::null_mut())]
         #[cfg(target_os = "solaris")]
         pub dlpi_tls_data: *mut c_void,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct fpregset_t {
         pub fp_reg_set: __c_anonymous_fp_reg_set,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct mcontext_t {
         pub gregs: [crate::greg_t; 28],
         pub fpregs: fpregset_t,
@@ -71,6 +79,7 @@ s! {
 
     pub struct ucontext_t {
         pub uc_flags: c_ulong,
+        #[custom_default(ptr::null_mut())]
         pub uc_link: *mut ucontext_t,
         pub uc_sigmask: crate::sigset_t,
         pub uc_stack: crate::stack_t,
@@ -90,7 +99,8 @@ s! {
     }
 }
 
-s_no_extra_traits! {
+s_no_extra_traits2! {
+    #[unsafe(union_default_via_zeroed)]
     pub union __c_anonymous_fp_reg_set {
         pub fpchip_state: __c_anonymous_fpchip_state,
         pub f_fpregs: [[u32; 13]; 10],

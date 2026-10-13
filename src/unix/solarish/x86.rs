@@ -8,7 +8,8 @@ pub type Elf32_Word = c_ulong;
 pub type Elf32_Lword = c_ulonglong;
 pub type Elf32_Phdr = __c_anonymous_Elf32_Phdr;
 
-s! {
+s2! {
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct __c_anonymous_Elf32_Phdr {
         pub p_type: Elf32_Word,
         pub p_offset: Elf32_Off,
@@ -20,9 +21,12 @@ s! {
         pub p_align: Elf32_Word,
     }
 
+    #[exhaustive] // FIXME(exhaustive): review for 1.0
     pub struct dl_phdr_info {
         pub dlpi_addr: Elf32_Addr,
+        #[custom_default(ptr::null_mut())]
         pub dlpi_name: *const c_char,
+        #[custom_default(ptr::null_mut())]
         pub dlpi_phdr: *const Elf32_Phdr,
         pub dlpi_phnum: Elf32_Half,
         pub dlpi_adds: c_ulonglong,
